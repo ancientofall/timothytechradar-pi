@@ -1,0 +1,12 @@
+services:
+  frontend:
+    ports:
+      - "3315:80"
+
+  backend:
+    ports: !override
+      - "8001:8000"
+
+  mongo:
+    ports: !override
+      - "27028:27017"
