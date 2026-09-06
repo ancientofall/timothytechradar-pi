@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+umask 077
+
+exec 9>/run/lock/timothytechradar-backup.lock
+flock -n 9 || exit 1
+
+backup_dir="/opt/timothytechradar-backups/$(date -u +%Y%m%dT%H%M%SZ)"
+mkdir -m 700 "$backup_dir"
+
+for container in pi-mainnet-mongo-1 pi-demo-app-mongo-1; do
+  archive="$backup_dir/$container.archive.gz"
+
+  docker exec "$container" sh -c '
+    exec mongodump \
+      --username "$MONGO_INITDB_ROOT_USERNAME" \
+      --password "$MONGO_INITDB_ROOT_PASSWORD" \
+      --authenticationDatabase admin \
+      --archive --gzip
+  ' > "$archive.partial"
+
+  test -s "$archive.partial"
+  gzip -t "$archive.partial"
+  mv "$archive.partial" "$archive"
+done
+
+cd "$backup_dir"
+sha256sum *.archive.gz > SHA256SUMS
+touch COMPLETE
+printf 'Backup completed: %s\n' "$backup_dir"
