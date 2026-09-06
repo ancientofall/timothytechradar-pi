@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Navy blue and teal modern technology background">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#08142f"/>
+      <stop offset="0.52" stop-color="#142848"/>
+      <stop offset="1" stop-color="#0b1c38"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0.08" cy="0.16" r="0.62">
+      <stop offset="0" stop-color="#2563eb" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#2563eb" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0.94" cy="0.78" r="0.58">
+      <stop offset="0" stop-color="#14b8a6" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#14b8a6" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M64 0H0V64" fill="none" stroke="#b9d9ff" stroke-opacity="0.055" stroke-width="1"/>
+    </pattern>
+    <filter id="blur" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glowA)"/>
+  <rect width="1600" height="900" fill="url(#glowB)"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-40 225H220l42-42h150l52 52h178" stroke="#62a6ff" stroke-opacity="0.25" stroke-width="2"/>
+    <path d="M1390 130h145l55 55h70" stroke="#46d6c4" stroke-opacity="0.28" stroke-width="2"/>
+    <path d="M1110 830h180l48-48h150l58-58h110" stroke="#46d6c4" stroke-opacity="0.22" stroke-width="2"/>
+    <path d="M-30 730h220l62-62h150" stroke="#62a6ff" stroke-opacity="0.18" stroke-width="2"/>
+    <path d="M1260 300h90l44 44h180" stroke="#62a6ff" stroke-opacity="0.17" stroke-width="2"/>
+  </g>
+
+  <g fill="#8bded4">
+    <circle cx="262" cy="183" r="5" fill-opacity="0.7"/>
+    <circle cx="464" cy="235" r="4" fill-opacity="0.55"/>
+    <circle cx="1390" cy="130" r="5" fill-opacity="0.65"/>
+    <circle cx="1490" cy="724" r="5" fill-opacity="0.55"/>
+    <circle cx="252" cy="668" r="4" fill-opacity="0.55"/>
+  </g>
+
+  <g filter="url(#blur)" fill="#2dd4bf" opacity="0.10">
+    <circle cx="220" cy="130" r="82"/>
+    <circle cx="1430" cy="760" r="96"/>
+  </g>
+
+  <path d="M470 110h660a26 26 0 0 1 26 26v628a26 26 0 0 1-26 26H470a26 26 0 0 1-26-26V136a26 26 0 0 1 26-26Z" fill="#ffffff" fill-opacity="0.025" stroke="#b9d9ff" stroke-opacity="0.07"/>
+</svg>
