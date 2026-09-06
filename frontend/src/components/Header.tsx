@@ -10,13 +10,20 @@ interface HeaderProps {
 }
 
 const headerStyle: CSSProperties = {
-  padding: 8,
-  backgroundColor: "gray",
+  padding: "8px 16px",
+  backgroundColor: "#08142f",
   color: "white",
   width: "100%",
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
+};
+
+const logoStyle: CSSProperties = {
+  display: "block",
+  width: 286,
+  maxWidth: "58vw",
+  height: "auto",
 };
 
 const userSectionStyle: CSSProperties = {
@@ -28,7 +35,7 @@ const userSectionStyle: CSSProperties = {
 const Header = ({ user, onSignIn, onSignOut, onSendTestNotification, isLoading }: HeaderProps) => {
   return (
     <header style={headerStyle}>
-      <div style={{ fontWeight: "bold" }}>TimothyTechRadar</div>
+      <img src="/timothytechradar-logo.svg" alt="TimothyTechRadar" style={logoStyle} />
 
       <div style={userSectionStyle}>
         {user ? (
