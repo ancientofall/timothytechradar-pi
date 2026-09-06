@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily TimothyTechRadar database backup
+
+[Timer]
+OnCalendar=*-*-* 03:00:00 UTC
+RandomizedDelaySec=900
+Persistent=true
+
+[Install]
+WantedBy=timers.target
