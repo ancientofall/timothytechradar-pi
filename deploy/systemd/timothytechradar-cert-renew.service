@@ -1,0 +1,10 @@
+[Unit]
+Description=Renew TimothyTechRadar HTTPS certificates
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/docker exec pi-demo-app-reverse-proxy-1 certbot renew --quiet --deploy-hook "nginx -t && nginx -s reload"
+TimeoutStartSec=1800

@@ -4,3 +4,10 @@ docker-data
 backend/private/
 **/node_modules/
 **/dist/
+
+# Private deployment settings, data, and local backups
+.env.mainnet
+/docker-data-mainnet/
+*.backup-*
+*.before-token-auth
+*.before-mobile-save
