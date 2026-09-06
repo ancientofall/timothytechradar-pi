@@ -9,6 +9,7 @@ import { axiosClient } from "../lib/axiosClient.ts";
 import { useCallback, useEffect, useState } from "react";
 
 const Shop = () => {
+  const paymentNetworkLabel = window.location.hostname.startsWith("testnet.") ? "Test-Pi" : "Pi";
   const [hasPurchasedKit, setHasPurchasedKit] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [downloadError, setDownloadError] = useState("");
@@ -89,8 +90,9 @@ const Shop = () => {
       <ProductCard
   name="AI Productivity Starter Kit"
   description="A practical toolkit for office workers: a quick-start guide, 20 reusable AI prompts, an editable weekly planner, and three worked examples."
-  price={0.1}
-  pictureURL="/ai-productivity-kit.svg"
+      price={0.1}
+      pictureURL="/ai-productivity-kit.svg"
+      paymentNetworkLabel={paymentNetworkLabel}
   onClickBuyWithPi={() =>
     orderProduct("Order AI Productivity Starter Kit", 0.1, {
       productId: "ai_productivity_starter_kit_1",
@@ -116,7 +118,7 @@ const Shop = () => {
       {isAuthenticated && hasPurchasedKit && (
         <div style={{ margin: 16, padding: 16, border: "1px solid #5eead4", borderRadius: 8 }}>
           <strong>Your starter kit is ready.</strong>
-          <p>Download the files included with your verified Test-Pi purchase.</p>
+          <p>Download the files included with your verified {paymentNetworkLabel} purchase.</p>
           <button type="button" disabled={isDownloading} onClick={() => { void downloadKit(); }}>
             {isDownloading ? "Preparing download…" : "Download AI Productivity Starter Kit"}
           </button>

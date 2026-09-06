@@ -5,6 +5,7 @@ interface ProductCardProps {
   description: string;
   price: number;
   pictureURL: string;
+  paymentNetworkLabel: string;
   onClickBuyWithPi: () => void;
   onClickBuyWithIrra: () => void;
   disabled?: boolean;
@@ -67,6 +68,7 @@ const ProductCard = ({
   description,
   price,
   pictureURL,
+  paymentNetworkLabel,
   onClickBuyWithPi,
   onClickBuyWithIrra,
   disabled,
@@ -87,7 +89,7 @@ const ProductCard = ({
       <div style={priceSectionStyle}>
         <div style={paymentActionsStyle}>
           <div style={paymentOptionStyle}>
-            <strong>{price} Test-Pi</strong>
+            <strong>{price} {paymentNetworkLabel}</strong>
             <button onClick={onClickBuyWithPi} disabled={disabled}>
               Pay with Pi
             </button>
