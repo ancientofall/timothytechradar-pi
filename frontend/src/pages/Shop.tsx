@@ -1,4 +1,5 @@
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard";
 import SignIn from "../components/SignIn";
 
@@ -125,6 +126,7 @@ const Shop = () => {
 
 
       {showSignIn && <SignIn onSignIn={signIn} onModalClose={closeSignIn} disabled={isAuthLoading} />}
+      <Footer />
     </>
   );
 };
