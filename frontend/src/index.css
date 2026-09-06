@@ -9,15 +9,15 @@ body {
   margin: 0;
   color: #0f172a;
   background-color: #08142f;
-  background-image: url("/tech-trust-background.svg");
-  background-position: center top;
-  background-size: cover;
-  background-attachment: fixed;
 }
 
 #root {
   min-height: 100vh;
-  background: rgba(248, 250, 252, 0.9);
+  background-color: rgba(248, 250, 252, 0.76);
+  background-image: linear-gradient(rgba(248, 250, 252, 0.76), rgba(248, 250, 252, 0.76)), url("/tech-trust-background.svg");
+  background-position: center top;
+  background-size: cover;
+  background-attachment: fixed;
   backdrop-filter: blur(2px);
 }
 
