@@ -1,0 +1,10 @@
+[Unit]
+Description=Back up TimothyTechRadar databases
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/timothytechradar-backup
+TimeoutStartSec=1800
+UMask=0077

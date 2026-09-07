@@ -1,0 +1,7 @@
+services:
+  reverse-proxy:
+    volumes:
+      - /opt/timothytechradar-mainnet/mainnet.conf:/etc/nginx/conf.d/mainnet.conf:rw
+      - /opt/timothytechradar-mainnet/validation:/var/www/mainnet-validation:ro
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
