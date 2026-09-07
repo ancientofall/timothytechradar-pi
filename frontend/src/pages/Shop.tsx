@@ -39,19 +39,7 @@ const Shop = () => {
         responseType: "blob",
       });
 
-      if (productId === "ai_productivity_starter_kit_1") {
-        setKitFile(new File([response.data], filename, { type: "application/zip" }));
-        return;
-      }
-
-      const url = URL.createObjectURL(response.data);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 60000);
+      setKitFile(new File([response.data], filename, { type: "application/zip" }));
     } catch {
       setDownloadError(
         "Could not retrieve your files. Please sign in again and retry. You do not need to pay again.",
@@ -252,6 +240,14 @@ const Shop = () => {
           >
             {isDownloading ? "Preparing download…" : "Download Idea Ignition Kit"}
           </button>
+          {kitFile && kitURL && (
+            <div role="status">
+              <p>Your ZIP is ready. Use the save link below.</p>
+              <a href={kitURL} download="Idea_Ignition_Kit.zip">
+                Save Idea Ignition Kit ZIP
+              </a>
+            </div>
+          )}
           {downloadError && <p role="alert">{downloadError}</p>}
         </div>
       )}
