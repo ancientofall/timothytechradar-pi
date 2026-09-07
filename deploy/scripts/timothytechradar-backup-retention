@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+find /opt/timothytechradar-backups \
+  -mindepth 1 -maxdepth 1 \
+  -type d -name '20*' -mtime +14 \
+  -print -exec rm -rf -- {} +
+
+rclone delete timothytechradar-secure: --min-age 30d --rmdirs
