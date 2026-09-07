@@ -87,10 +87,6 @@ const ProductCard = ({
       </div>
 
       <div style={priceSectionStyle}>
-        <p style={{ fontSize: 14, lineHeight: 1.5 }}>
-          Digital download. Refunds for duplicate charges and faulty or undeliverable files,
-          subject to applicable consumer rights. <a href="/refunds">Refund policy</a> · <a href="/terms">Terms</a>
-        </p>
         <div style={paymentActionsStyle}>
           <div style={paymentOptionStyle}>
             <strong>{price} {paymentNetworkLabel}</strong>
@@ -106,6 +102,10 @@ const ProductCard = ({
             <p style={irraCaptionStyle}>IRRA prices don't follow actual price, it's set for demo purpose</p>
           </div>
         </div>
+        <p style={{ fontSize: 14, lineHeight: 1.5 }}>
+          Digital download. Refunds for duplicate charges and faulty or undeliverable files,
+          subject to applicable consumer rights. <a href="/refunds">Refund policy</a> · <a href="/terms">Terms</a>
+        </p>
       </div>
     </div>
   );
