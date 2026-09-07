@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+umask 077
+
+latest="$(find /opt/timothytechradar-backups -mindepth 1 -maxdepth 1 -type d -name '20*' -printf '%T@ %p\n' | sort -nr | head -n 1 | cut -d' ' -f2-)"
+[ -n "$latest" ] || { echo "No backup directory found"; exit 1; }
+[ -f "$latest/COMPLETE" ] || { echo "Latest backup is incomplete"; exit 1; }
+
+remote="timothytechradar-secure:$(basename "$latest")"
+rclone copy "$latest" "$remote" --immutable
+rclone check "$latest" "$remote" --one-way
