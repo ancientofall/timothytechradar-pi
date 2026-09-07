@@ -8,4 +8,4 @@ latest="$(find /opt/timothytechradar-backups -mindepth 1 -maxdepth 1 -type d -na
 
 remote="timothytechradar-secure:$(basename "$latest")"
 rclone copy "$latest" "$remote" --immutable
-rclone check "$latest" "$remote" --one-way
+rclone check "$latest" "$remote" --one-way --download
