@@ -12,9 +12,12 @@ interface ProductCardProps {
 }
 
 const containerStyle: CSSProperties = {
-  margin: 16,
-  paddingBottom: 16,
-  borderBottom: "1px solid gray",
+  margin: "18px 16px",
+  padding: 16,
+  border: "1px solid #d7deea",
+  borderRadius: 18,
+  background: "rgba(255, 255, 255, 0.84)",
+  boxShadow: "0 10px 28px rgba(11, 23, 53, 0.08)",
 };
 
 const contentRowStyle: CSSProperties = {
@@ -46,15 +49,40 @@ const paymentOptionStyle: CSSProperties = {
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  gap: 4,
+  gap: 8,
+  flex: 1,
+  minWidth: 0,
+  padding: "12px 10px",
+  border: "1px solid #d7deea",
+  borderRadius: 14,
+  background: "#ffffff",
 };
 
 const paymentActionsStyle: CSSProperties = {
   display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  gap: 12,
+  flexDirection: "row",
+  alignItems: "stretch",
+  gap: 10,
   marginTop: 8,
+};
+
+const primaryButtonStyle: CSSProperties = {
+  width: "100%",
+  border: 0,
+  borderRadius: 999,
+  padding: "10px 14px",
+  color: "#ffffff",
+  background: "linear-gradient(135deg, #182b58, #2f66c7)",
+  fontWeight: 700,
+  fontSize: 14,
+  cursor: "pointer",
+};
+
+const secondaryButtonStyle: CSSProperties = {
+  ...primaryButtonStyle,
+  color: "#102047",
+  background: "#e8f7f5",
+  border: "1px solid #8bd9d0",
 };
 
 const irraCaptionStyle: CSSProperties = {
@@ -89,14 +117,14 @@ const ProductCard = ({
       <div style={priceSectionStyle}>
         <div style={paymentActionsStyle}>
           <div style={paymentOptionStyle}>
-            <strong>{price} {paymentNetworkLabel}</strong>
-            <button onClick={onClickBuyWithPi} disabled={disabled}>
+            <strong style={{ color: "#182b58", fontSize: 16 }}>{price} {paymentNetworkLabel}</strong>
+            <button type="button" style={primaryButtonStyle} onClick={onClickBuyWithPi} disabled={disabled}>
               Pay with Pi
             </button>
           </div>
           <div style={paymentOptionStyle}>
-            <strong>{price} IRRA</strong>
-            <button onClick={onClickBuyWithIrra} disabled={disabled}>
+            <strong style={{ color: "#182b58", fontSize: 16 }}>{price} IRRA</strong>
+            <button type="button" style={secondaryButtonStyle} onClick={onClickBuyWithIrra} disabled={disabled}>
               Pay with IRRA
             </button>
             <p style={irraCaptionStyle}>IRRA prices don't follow actual price, it's set for demo purpose</p>
