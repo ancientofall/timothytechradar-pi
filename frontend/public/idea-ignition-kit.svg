@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-labelledby="title desc">
+  <title id="title">Idea Ignition Kit</title>
+  <desc id="desc">A creative thinking kit with a glowing spark over radar rings.</desc>
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="35%" r="80%">
+      <stop offset="0" stop-color="#162b54"/>
+      <stop offset="1" stop-color="#09132d"/>
+    </radialGradient>
+    <linearGradient id="spark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffe08a"/>
+      <stop offset="1" stop-color="#45d6c7"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="9" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="800" height="800" rx="46" fill="url(#bg)"/>
+  <g opacity=".45" fill="none" stroke="#3f72b8" stroke-width="4">
+    <circle cx="400" cy="270" r="176"/><circle cx="400" cy="270" r="118"/><circle cx="400" cy="270" r="60"/>
+    <path d="M400 72v396M202 270h396"/>
+  </g>
+  <g filter="url(#glow)">
+    <path d="M400 125 L432 238 L546 270 L432 302 L400 416 L368 302 L254 270 L368 238 Z" fill="url(#spark)"/>
+    <circle cx="400" cy="270" r="20" fill="#fff4bd"/>
+  </g>
+  <g fill="#45d6c7" opacity=".8"><circle cx="165" cy="148" r="6"/><circle cx="633" cy="174" r="5"/><circle cx="605" cy="399" r="7"/><circle cx="191" cy="415" r="5"/></g>
+  <text x="400" y="560" text-anchor="middle" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="50" font-weight="700">IDEA IGNITION</text>
+  <text x="400" y="620" text-anchor="middle" fill="#45d6c7" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="700">KIT</text>
+  <text x="400" y="698" text-anchor="middle" fill="#b9c8e2" font-family="Arial, Helvetica, sans-serif" font-size="18" letter-spacing="4">SPARK A THOUGHT. SHAPE A START.</text>
+</svg>

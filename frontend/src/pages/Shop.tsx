@@ -174,7 +174,7 @@ const Shop = () => {
         name="Idea Ignition Kit"
         description="A creative thinking toolkit with 30 prompts, idea worksheets, a seven-day practice, and a pitch playbook for turning sparks into workable ideas."
         price={0.1}
-        pictureURL="/ai-productivity-kit.svg"
+        pictureURL="/idea-ignition-kit.svg"
         paymentNetworkLabel={paymentNetworkLabel}
         onClickBuyWithPi={() =>
           orderProduct("Order Idea Ignition Kit", 0.1, {
