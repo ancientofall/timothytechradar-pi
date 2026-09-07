@@ -37,6 +37,7 @@ const Footer = () => (
         <a href="/privacy">Privacy</a>
         <a href="/terms">Terms</a>
       </nav>
+      <p style={{ fontSize: 12, color: "#6b7280", marginTop: 18 }}>© {new Date().getFullYear()} TimothyTechRadar. All rights reserved.</p>
     </div>
   </footer>
 );
