@@ -9,10 +9,10 @@ const content: Record<PolicyKind, { title: string; body: ReactNode }> = {
       <ol>
         <li>Open the storefront in Pi Browser and sign in with your Pi account.</li>
         <li>Review the product description, price, and refund policy before choosing Pay with Pi. Check the amount and network in your wallet before approving.</li>
-        <li>After payment is verified, return to the storefront and choose Download AI Productivity Starter Kit.</li>
+        <li>After payment is verified, My downloads opens. Choose Prepare my files beside your purchased kit, then Save ZIP or Save or share files.</li>
         <li>Save the ZIP file using your browser's download or share options, then extract it to open the included documents.</li>
       </ol>
-      <p>Already purchased? Sign in with the same Pi account and choose Restore my purchase if the download is not shown. If a payment appears stuck, contact support before paying again.</p>
+      <p>Already purchased? Open My downloads and sign in with the same Pi account. Choose Check my purchases if your kit is not shown. If a payment appears stuck, contact support before paying again.</p>
       <p>For help, email your Pi username, product name, transaction identifier if available, and a description of the issue. Never send wallet passphrases, passwords, or access tokens.</p>
     </>,
   },

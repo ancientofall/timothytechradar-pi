@@ -1,5 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Shop from "./pages/Shop";
+import StoreLayout from "./pages/StoreLayout";
+import Downloads from "./pages/Downloads";
 import PolicyPage from "./pages/PolicyPage";
 import EngagementTasksPage from "./pages/EngagementTasksPage.tsx";
 
@@ -10,7 +12,11 @@ export const router = createBrowserRouter([
   { path: "/terms", element: <PolicyPage kind="terms" /> },
   {
     path: "/",
-    element: <Shop />,
+    element: <StoreLayout />,
+    children: [
+      { index: true, element: <Shop /> },
+      { path: "downloads", element: <Downloads /> },
+    ],
   },
   {
     path: "/engagement-tasks",

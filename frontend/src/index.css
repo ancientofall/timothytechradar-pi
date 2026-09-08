@@ -34,3 +34,26 @@ h4, h5, h6 {
 *, *::before, *::after {
   box-sizing: border-box;
 }
+
+.storefront { max-width: 1160px; margin: 0 auto; padding: 12px 0; }
+.product-story { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 28px; align-items: start; margin-bottom: 24px; }
+.product-art img { border-radius: 12px; }
+.product-name { font-size: 13px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; margin: 0 0 10px; }
+.product-copy h2 { font-size: clamp(26px, 3vw, 38px); line-height: 1.12; letter-spacing: -.035em; margin-bottom: 14px; color: #102047; }
+.product-intro { font-size: 16px; line-height: 1.65; color: #42516a; margin: 0 0 20px; }
+.product-benefits { padding: 0; margin: 0; list-style: none; display: grid; gap: 14px; }
+.product-benefits li { border-left: 3px solid; padding-left: 14px; }
+.product-benefits h3 { font-size: 16px; margin: 0 0 4px; color: #102047; }
+.product-benefits p { font-size: 14px; line-height: 1.55; margin: 0; color: #42516a; }
+.download-library { max-width: 920px; margin: auto; padding: 32px 20px; min-height: 60vh; line-height: 1.6; }
+.download-library h1 { margin-top: 20px; font-size: clamp(28px, 5vw, 42px); color: #102047; }
+.download-card { background: #fff; border: 1px solid #cdd9e6; border-radius: 18px; padding: 24px; margin: 24px 0; box-shadow: 0 10px 28px #0b173514; }
+.download-card img { border-radius: 10px; margin-bottom: 16px; }
+.library-button, .library-link { display: inline-block; padding: 12px 20px; background: #182b58; color: #fff; border: 0; border-radius: 24px; font-size: 14px; font-weight: 700; cursor: pointer; }
+.library-link { background: #087b73; }
+.library-button:disabled { opacity: .6; cursor: wait; }
+a:focus-visible, button:focus-visible { outline: 3px solid #2779d8; outline-offset: 4px; }
+@media (max-width: 600px) {
+  .product-story { grid-template-columns: 1fr; gap: 20px; }
+  .product-art { width: min(64%, 240px); margin: 0 auto; }
+}

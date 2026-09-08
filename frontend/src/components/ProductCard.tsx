@@ -3,6 +3,9 @@ import type { CSSProperties } from "react";
 interface ProductCardProps {
   name: string;
   description: string;
+  headline: string;
+  accent: string;
+  benefits: { title: string; text: string }[];
   price: number;
   pictureURL: string;
   paymentNetworkLabel: string;
@@ -20,24 +23,9 @@ const containerStyle: CSSProperties = {
   boxShadow: "0 10px 28px rgba(11, 23, 53, 0.08)",
 };
 
-const contentRowStyle: CSSProperties = {
-  display: "flex",
-  flexDirection: "row",
-  marginBottom: 8,
-};
-
-const imageWrapperStyle: CSSProperties = {
-  width: "33%",
-  marginRight: 8,
-};
-
 const imageStyle: CSSProperties = {
   width: "100%",
   objectFit: "cover",
-};
-
-const infoStyle: CSSProperties = {
-  width: "66%",
 };
 
 const priceSectionStyle: CSSProperties = {
@@ -94,6 +82,9 @@ const irraCaptionStyle: CSSProperties = {
 const ProductCard = ({
   name,
   description,
+  headline,
+  accent,
+  benefits,
   price,
   pictureURL,
   paymentNetworkLabel,
@@ -103,21 +94,34 @@ const ProductCard = ({
 }: ProductCardProps) => {
   return (
     <div style={containerStyle}>
-      <div style={contentRowStyle}>
-        <div style={imageWrapperStyle}>
+      <div className="product-story">
+        <div className="product-art">
           <img style={imageStyle} src={pictureURL} alt={name} />
         </div>
 
-        <div style={infoStyle}>
-          <h3>{name}</h3>
-          <p>{description}</p>
+        <div className="product-copy">
+          <p className="product-name" style={{ color: accent }}>
+            {name}
+          </p>
+          <h2>{headline}</h2>
+          <p className="product-intro">{description}</p>
+          <ul className="product-benefits">
+            {benefits.map(benefit => (
+              <li key={benefit.title} style={{ borderLeftColor: accent }}>
+                <h3>{benefit.title}</h3>
+                <p>{benefit.text}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
       <div style={priceSectionStyle}>
         <div style={paymentActionsStyle}>
           <div style={paymentOptionStyle}>
-            <strong style={{ color: "#182b58", fontSize: 16 }}>{price} {paymentNetworkLabel}</strong>
+            <strong style={{ color: "#182b58", fontSize: 16 }}>
+              {price} {paymentNetworkLabel}
+            </strong>
             <button type="button" style={primaryButtonStyle} onClick={onClickBuyWithPi} disabled={disabled}>
               Pay with Pi
             </button>
@@ -131,8 +135,8 @@ const ProductCard = ({
           </div>
         </div>
         <p style={{ fontSize: 14, lineHeight: 1.5 }}>
-          Digital download. Refunds for duplicate charges and faulty or undeliverable files,
-          subject to applicable consumer rights. <a href="/refunds">Refund policy</a> · <a href="/terms">Terms</a>
+          Digital download. Refunds for duplicate charges and faulty or undeliverable files, subject to applicable
+          consumer rights. <a href="/refunds">Refund policy</a> · <a href="/terms">Terms</a>
         </p>
       </div>
     </div>
