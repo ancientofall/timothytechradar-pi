@@ -19,7 +19,7 @@ const linkStyle: CSSProperties = {
 const Footer = () => (
   <footer style={footerStyle}>
     <p>
-      Stay ahead of the curve - browse the latest AI and tech products, discover what stands out, and purchase your next smart upgrade in just a few clicks.
+      Discover the latest tech, read product reviews, and shop your next upgrade on our TimothyTechRadar website.
     </p>
     <a
       href="https://timothytechradar.aibusiness-lab.com/"
@@ -27,7 +27,7 @@ const Footer = () => (
       rel="noreferrer"
       style={linkStyle}
     >
-      Explore TimothyTechRadar AI Business &rarr;
+      Visit TimothyTechRadar &mdash; Shop Tech &amp; Read Reviews &rarr;
     </a>
     <div style={{ fontSize: 14, lineHeight: 1.6, marginTop: 24 }}>
       <p>Purchase or download help: <a href="mailto:jonhad2@live.com">jonhad2@live.com</a></p>
