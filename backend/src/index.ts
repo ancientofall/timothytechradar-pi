@@ -11,6 +11,7 @@ import { MongoClient } from "mongodb";
 import env from "./environments";
 import mountPaymentsEndpoints from "./handlers/payments";
 import mountUserEndpoints from "./handlers/users";
+import contactRouter from "./handlers/contact";
 
 // We must import typedefs for ts-node-dev to pick them up when they change (even though tsc would supposedly
 // have no problem here)
@@ -45,6 +46,8 @@ app.use(
 );
 
 // Enable response bodies to be sent as JSON:
+// Contact uses its own small body limit and does not require a customer session.
+app.use("/contact", contactRouter(env.frontend_url));
 app.use(express.json());
 
 // Handle CORS:
@@ -129,6 +132,8 @@ const start = async () => {
     const db = client.db(dbName);
     app.locals.orderCollection = db.collection("orders");
     app.locals.userCollection = db.collection("users");
+    app.locals.contactLimits = db.collection("contact_limits");
+    await app.locals.contactLimits.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 });
     console.log("Connected to MongoDB on: ", mongoUri);
 
     app.listen(env.port, () => {

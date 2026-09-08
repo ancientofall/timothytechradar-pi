@@ -30,7 +30,7 @@ const Footer = () => (
       Visit TimothyTechRadar &mdash; Shop Tech &amp; Read Reviews &rarr;
     </a>
     <div style={{ fontSize: 14, lineHeight: 1.6, marginTop: 24 }}>
-      <p>Purchase or download help: <a href="mailto:jonhad2@live.com">jonhad2@live.com</a></p>
+      <p>Questions about your purchase? <a href="/contact">Contact support</a></p>
       <nav aria-label="Help and policies" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "8px 20px" }}>
         <a href="/help">How to buy</a>
         <a href="/refunds">Refund policy</a>
