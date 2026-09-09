@@ -5,18 +5,21 @@ import platformAPIClient from "../services/platformAPIClient";
 import "../types/session";
 
 export default function mountPaymentsEndpoints(router: Router) {
-  const products: Record<string, { file: string; download: string }> = {
+  const products: Record<string, { file: string; download: string; price: number }> = {
     ai_productivity_starter_kit_1: {
       file: "AI_Productivity_Starter_Kit.zip",
       download: "AI_Productivity_Starter_Kit.zip",
+      price: 3,
     },
     idea_ignition_kit_1: {
       file: "Idea_Ignition_Kit_All_PDFs.zip",
       download: "Idea_Ignition_Kit.zip",
+      price: 5,
     },
     pi_nft_signal_field_guide_1: {
       file: "Pi_NFT_Signal_Field_Guide.zip",
       download: "Pi_NFT_Signal_Field_Guide.zip",
+      price: 10,
     },
   };
 
@@ -100,6 +103,17 @@ export default function mountPaymentsEndpoints(router: Router) {
       const paymentId = req.body.paymentId;
       const currentPayment = await platformAPIClient.get(`/v2/payments/${paymentId}`);
       const orderCollection = app.locals.orderCollection;
+
+      // Validate the authoritative payment before approving a new purchase.
+      // Existing completed orders retain access when catalog prices change.
+      const productId = currentPayment.data.metadata?.productId;
+      const product = typeof productId === "string" && Object.prototype.hasOwnProperty.call(products, productId)
+        ? products[productId]
+        : undefined;
+      if (!product || currentPayment.data.user_uid !== req.session.currentUser.uid ||
+          currentPayment.data.amount !== product.price) {
+        return res.status(400).json({ error: "invalid_payment", message: "Refresh the shop and start a new payment at the current price." });
+      }
 
       /* 
         Implement your logic here 
