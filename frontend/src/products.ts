@@ -40,4 +40,20 @@ export const products = [
       },
     ],
   },
+  {
+    id: "pi_nft_signal_field_guide_1",
+    name: "Pi NFT Signal Field Guide",
+    filename: "Pi_NFT_Signal_Field_Guide.zip",
+    pictureURL: "/pi-nft-signal.svg",
+    price: 3,
+    headline: "Read the signal. Build with purpose.",
+    accent: "#4c78e8",
+    description:
+      "A technical, consumer-minded field guide for evaluating NFT utility, ownership, rights, risk, and product strategy inside Pi's evolving ecosystem.",
+    benefits: [
+      { title: "Think like an operator.", text: "A structured framework for separating documented capability, design choice, and future possibility." },
+      { title: "Design utility that lasts.", text: "Technical and consumer examples covering metadata, access, payments, physical companions, and retention." },
+      { title: "Launch with evidence.", text: "A 90-day roadmap, scorecard, expert memo template, source discipline, and Blush Babies case study." },
+    ],
+  },
 ];

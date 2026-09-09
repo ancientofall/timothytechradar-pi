@@ -14,6 +14,10 @@ export default function mountPaymentsEndpoints(router: Router) {
       file: "Idea_Ignition_Kit_All_PDFs.zip",
       download: "Idea_Ignition_Kit.zip",
     },
+    pi_nft_signal_field_guide_1: {
+      file: "Pi_NFT_Signal_Field_Guide.zip",
+      download: "Pi_NFT_Signal_Field_Guide.zip",
+    },
   };
 
   router.get(["/kit-access", "/kit-download", "/product-access", "/product-download"], async (req, res) => {
