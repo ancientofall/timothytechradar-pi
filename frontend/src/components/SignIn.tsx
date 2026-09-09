@@ -6,7 +6,7 @@ export default function SignIn({ onSignIn, onModalClose, disabled, error }: Sign
   useEffect(() => { const element = dialog.current; element?.showModal(); return () => element?.close(); }, []);
   return (
     <dialog ref={dialog} className="pi-signin-dialog" aria-label="Sign in with Pi Browser" onCancel={onModalClose}>
-      <PiBrowserNotice />
+      <PiBrowserNotice signIn />
       {error && <p role="alert">{error}</p>}
       <div className="pi-browser-actions">
         <button type="button" className="library-button" onClick={onSignIn} disabled={disabled}>{disabled ? "Waiting for Pi Browser..." : "I'm in Pi Browser - sign in"}</button>

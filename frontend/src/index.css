@@ -88,6 +88,20 @@ a:focus-visible, button:focus-visible { outline: 3px solid #2779d8; outline-offs
 .pi-browser-actions input { flex: 1; min-width: 0; width: 100%; padding: 12px; font: inherit; border: 1px solid #8baabd; border-radius: 8px; background: white; color: #102047; }
 .pi-copy-status { font-size: 14px; }
 .pi-browser-notice summary { cursor: pointer; font-weight: 700; }
+.discovery-panel { background: linear-gradient(110deg, #102047, #173b4b); color: #fff; border: 1px solid #467e8c; border-left: 4px solid #65dfca; padding: 20px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 18px 24px; }
+.discovery-intro { flex: 1 1 340px; }
+.discovery-panel h2 { color: #fff; font-size: 23px; margin: 0 0 6px; }
+.discovery-intro p { color: #dfebf2; font-size: 15px; margin: 0; }
+.discovery-actions { display: flex; flex-direction: column; align-items: stretch; gap: 8px; }
+.discovery-link, .discovery-toggle { padding: 10px 18px; border-radius: 24px; font-size: 14px; font-weight: 700; text-align: center; cursor: pointer; }
+.discovery-link { background: #8ce8d6; color: #102047; text-decoration: none; }
+.discovery-link:hover { background: #b1f5e7; }
+.discovery-toggle { background: transparent; color: #fff; border: 1px solid #789fae; }
+.discovery-toggle:hover { background: #ffffff12; }
+.discovery-instructions { flex-basis: 100%; border-top: 1px solid #789fae; padding-top: 12px; }
+.discovery-instructions .library-button { background: #e4f4f0; color: #102047; }
+.discovery-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+@media (max-width: 600px) { .discovery-intro { flex-basis: 100%; } .discovery-actions { width: 100%; } }
 .pi-browser-caption { font-size: 14px; margin-bottom: 0; }
 .pi-signin-dialog { width: min(700px, 94vw); max-height: 90vh; overflow: auto; border: 1px solid #94b8d2; border-radius: 20px; padding: 20px; color: #102047; }
 .pi-signin-dialog::backdrop { background: #08142faa; }
