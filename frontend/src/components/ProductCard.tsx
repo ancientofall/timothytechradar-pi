@@ -8,6 +8,7 @@ interface ProductCardProps {
   benefits: { title: string; text: string }[];
   price: number;
   pictureURL: string;
+  previewURL: string;
   paymentNetworkLabel: string;
   onClickBuyWithPi: () => void;
   onClickBuyWithIrra: () => void;
@@ -87,6 +88,7 @@ const ProductCard = ({
   benefits,
   price,
   pictureURL,
+  previewURL,
   paymentNetworkLabel,
   onClickBuyWithPi,
   onClickBuyWithIrra,
@@ -97,6 +99,16 @@ const ProductCard = ({
       <div className="product-story">
         <div className="product-art">
           <img style={imageStyle} src={pictureURL} alt={name} />
+          <a
+            className="kit-preview-link"
+            href={previewURL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Preview ${name} (3-page PDF, opens in a new tab)`}
+          >
+            Preview the Kit <span aria-hidden="true">↗</span>
+          </a>
+          <p className="kit-preview-note">Free 3-page PDF: cover, introduction, and opening lesson.</p>
         </div>
 
         <div className="product-copy">
