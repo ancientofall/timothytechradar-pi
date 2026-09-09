@@ -39,7 +39,7 @@ const Header = ({ user, onSignIn, onSignOut, onSendTestNotification, isLoading }
   return (
     <header style={headerStyle}>
       <Link to="/" aria-label="TimothyTechRadar home">
-        <img src="/timothytechradar-logo.svg" alt="TimothyTechRadar" style={logoStyle} />
+        <img src="/timothytechradar-logo-premium.png" alt="TimothyTechRadar" style={logoStyle} />
       </Link>
 
       <div style={userSectionStyle}>
