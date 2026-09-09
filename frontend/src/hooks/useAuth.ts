@@ -6,6 +6,7 @@ export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null);
   const [showSignIn, setShowSignIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [authError, setAuthError] = useState("");
 
   const onIncompletePaymentFound = useCallback(async (payment: PaymentDTO) => {
     try {
@@ -23,10 +24,12 @@ export const useAuth = () => {
       setShowSignIn(false);
     } catch (err) {
       console.error("Error signing in:", err);
+      setAuthError("We couldn't finish signing in. Please try again in Pi Browser.");
     }
   }, []);
 
   const signIn = useCallback(async () => {
+    setAuthError("");
     setIsLoading(true);
     try {
       const scopes = ["username", "payments", "roles", "in_app_notifications"];
@@ -34,6 +37,7 @@ export const useAuth = () => {
       await signInUser(authResult);
     } catch (err) {
       console.error("Error authenticating:", err);
+      setAuthError("Sign-in didn't complete. Open this website in Pi Browser and try again.");
     } finally {
       setIsLoading(false);
     }
@@ -65,5 +69,6 @@ export const useAuth = () => {
     closeSignIn,
     requireAuth: () => setShowSignIn(true),
     isLoading,
+    authError,
   };
 };

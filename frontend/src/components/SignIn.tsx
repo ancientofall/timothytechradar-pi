@@ -1,46 +1,17 @@
-import type { CSSProperties } from "react";
-
-interface SignInProps {
-  onSignIn: () => void;
-  onModalClose: () => void;
-  disabled?: boolean;
-}
-
-const modalStyle: CSSProperties = {
-  background: "white",
-  position: "absolute",
-  left: "15vw",
-  top: "40%",
-  width: "70vw",
-  height: "25vh",
-  border: "1px solid black",
-  textAlign: "center",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-  alignItems: "center",
-  padding: "1rem",
-  gap: "1rem",
-};
-
-const buttonContainerStyle: CSSProperties = {
-  display: "flex",
-  justifyContent: "center",
-  gap: "1rem",
-};
-
-const SignIn = ({ onSignIn, onModalClose, disabled }: SignInProps) => {
+import { useEffect, useRef } from "react";
+import PiBrowserNotice from "./PiBrowserNotice";
+interface SignInProps { onSignIn: () => void; onModalClose: () => void; disabled?: boolean; error?: string; }
+export default function SignIn({ onSignIn, onModalClose, disabled, error }: SignInProps) {
+  const dialog = useRef<HTMLDialogElement>(null);
+  useEffect(() => { const element = dialog.current; element?.showModal(); return () => element?.close(); }, []);
   return (
-    <div style={modalStyle}>
-      <p style={{ fontWeight: "bold" }}>You need to sign in first.</p>
-      <div style={buttonContainerStyle}>
-        <button onClick={onSignIn} disabled={disabled}>
-          Sign in
-        </button>
-        <button onClick={onModalClose}>Close</button>
+    <dialog ref={dialog} className="pi-signin-dialog" aria-label="Sign in with Pi Browser" onCancel={onModalClose}>
+      <PiBrowserNotice />
+      {error && <p role="alert">{error}</p>}
+      <div className="pi-browser-actions">
+        <button type="button" className="library-button" onClick={onSignIn} disabled={disabled}>{disabled ? "Waiting for Pi Browser..." : "I'm in Pi Browser - sign in"}</button>
+        <button type="button" className="library-button" onClick={onModalClose}>Keep browsing</button>
       </div>
-    </div>
+    </dialog>
   );
-};
-
-export default SignIn;
+}

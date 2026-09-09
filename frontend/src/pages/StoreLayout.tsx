@@ -2,6 +2,7 @@ import { Outlet, useOutletContext } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import SignIn from "../components/SignIn";
+import PiBrowserNotice from "../components/PiBrowserNotice";
 import { useAuth } from "../hooks/useAuth";
 import { axiosClient } from "../lib/axiosClient";
 
@@ -13,7 +14,7 @@ export default function StoreLayout() {
     <>
       <Header
         user={auth.user}
-        onSignIn={auth.signIn}
+        onSignIn={auth.requireAuth}
         onSignOut={auth.signOut}
         isLoading={auth.isLoading}
         onSendTestNotification={() => {
@@ -29,8 +30,9 @@ export default function StoreLayout() {
           });
         }}
       />
+      {!auth.isAuthenticated && <PiBrowserNotice />}
       <Outlet context={auth} />
-      {auth.showSignIn && <SignIn onSignIn={auth.signIn} onModalClose={auth.closeSignIn} disabled={auth.isLoading} />}
+      {auth.showSignIn && <SignIn onSignIn={auth.signIn} onModalClose={auth.closeSignIn} disabled={auth.isLoading} error={auth.authError} />}
       <Footer />
     </>
   );
