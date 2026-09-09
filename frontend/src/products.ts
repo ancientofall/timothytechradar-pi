@@ -44,7 +44,7 @@ export const products = [
     id: "pi_nft_signal_field_guide_1",
     name: "Pi NFT Signal Field Guide",
     filename: "Pi_NFT_Signal_Field_Guide.zip",
-    pictureURL: "/pi-nft-signal.svg",
+    pictureURL: "/pi-nft-signal-premium.png",
     price: 3,
     headline: "Read the signal. Build with purpose.",
     accent: "#4c78e8",
