@@ -107,3 +107,24 @@ a:focus-visible, button:focus-visible { outline: 3px solid #2779d8; outline-offs
 .pi-signin-dialog::backdrop { background: #08142faa; }
 .pi-signin-dialog .pi-browser-notice { margin-top: 0; padding: 18px; }
 @media (max-width: 600px) { .pi-browser-notice { margin: 16px; padding: 18px; } .pi-browser-actions input { flex-basis: 100%; } .pi-signin-dialog .pi-browser-notice { margin: 0 0 16px; } }
+
+.site-header { position: relative; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; padding: 8px 20px; background: #08142f; color: #fff; }
+.site-logo img { display: block; width: 286px; max-width: 58vw; height: auto; }
+.site-header-actions { display: flex; align-items: center; gap: 22px; }
+.header-downloads { color: #a7eee3; font-size: 14px; font-weight: 700; }
+.site-menu-toggle { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border: 1px solid #63939f; border-radius: 12px; background: #142b43; color: #fff; font: inherit; font-weight: 700; cursor: pointer; min-height: 44px; }
+.site-menu-icon { color: #8ce8d6; font-size: 23px; line-height: 1; width: 24px; }
+.site-menu { position: absolute; top: 100%; right: 20px; width: min(650px, calc(100vw - 40px)); max-height: 75vh; overflow-y: auto; padding: 24px; background: #10233e; border: 1px solid #548a96; border-top: 3px solid #8ce8d6; border-radius: 0 0 18px 18px; box-shadow: 0 18px 35px #02091666; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.site-menu[hidden] { display: none; }
+.site-menu h2 { color: #8ce8d6; font-size: 13px; letter-spacing: .07em; text-transform: uppercase; margin: 0 0 8px; }
+.site-menu a, .site-menu button { display: block; width: 100%; text-align: left; padding: 11px 10px; border: 0; border-radius: 8px; background: transparent; color: #fff; font: inherit; font-size: 15px; text-decoration: none; cursor: pointer; line-height: 1.5; }
+.site-menu a:hover, .site-menu button:hover, .site-menu a[aria-current="page"] { background: #234760; color: #b5fff0; }
+.site-menu button:disabled { opacity: .6; cursor: wait; }
+.site-menu-user { display: block; padding: 8px 10px; color: #b4c6d6; overflow-wrap: anywhere; }
+@media (max-width: 600px) {
+  .site-header { padding: 8px 12px; }
+  .header-downloads { display: none; }
+  .site-menu-toggle { padding: 10px 12px; }
+  .site-menu { position: static; width: 100%; max-height: none; grid-template-columns: 1fr; padding: 20px; gap: 18px; }
+  .site-header { flex-wrap: wrap; }
+}

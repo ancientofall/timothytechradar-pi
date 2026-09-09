@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Header from "../components/Header";
 
 export type PolicyKind = "help" | "refunds" | "privacy" | "terms";
 
@@ -69,10 +70,10 @@ const content: Record<PolicyKind, { title: string; body: ReactNode }> = {
 
 export default function PolicyPage({ kind }: { kind: PolicyKind }) {
   const page = content[kind];
-  return <main style={{ maxWidth: 780, margin: "0 auto", padding: "32px 24px", background: "#f8fafc", color: "#0f172a", minHeight: "100vh", lineHeight: 1.7 }}>
+  return <><Header /><main style={{ maxWidth: 780, margin: "0 auto", padding: "32px 24px", background: "#f8fafc", color: "#0f172a", minHeight: "100vh", lineHeight: 1.7 }}>
     <a href="/">&larr; Back to TimothyTechRadar</a>
     <h1 style={{ marginTop: 24 }}>{page.title}</h1>
     {page.body}
     <p><a href="/contact">Contact support</a></p>
-  </main>;
+  </main></>;
 }

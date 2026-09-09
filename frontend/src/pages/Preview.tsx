@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { products } from "../products";
 import previewText from "../previewText.json";
+import Header from "../components/Header";
 
 export default function Preview() {
   const { slug } = useParams();
@@ -9,10 +10,7 @@ export default function Preview() {
   const texts = previewText[product.previewSlug as keyof typeof previewText];
   return (
     <div className="preview-view">
-      <header className="preview-header">
-        <Link to="/" aria-label="TimothyTechRadar home"><img src="/timothytechradar-logo-premium.png" alt="TimothyTechRadar" /></Link>
-        <Link to="/">Back to shop</Link>
-      </header>
+      <Header />
       <main className="preview-content">
         <p className="product-name">Free three-page preview</p>
         <h1>{product.name}</h1>
