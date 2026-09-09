@@ -102,13 +102,11 @@ const ProductCard = ({
           <a
             className="kit-preview-link"
             href={previewURL}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Preview ${name} (3-page PDF, opens in a new tab)`}
+            aria-label={`Preview ${name}: three sample pages`}
           >
             Preview the Kit <span aria-hidden="true">↗</span>
           </a>
-          <p className="kit-preview-note">Free 3-page PDF: cover, introduction, and opening lesson.</p>
+          <p className="kit-preview-note">Three free sample pages. Read here or download the PDF.</p>
         </div>
 
         <div className="product-copy">
