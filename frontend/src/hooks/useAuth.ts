@@ -1,12 +1,29 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { axiosClient } from "../lib/axiosClient";
 import type { AuthResult, PaymentDTO, User } from "../types/pi";
 
 export const useAuth = () => {
+  const [authReady, setAuthReady] = useState(false);
+  const [piSessionHint, setPiSessionHint] = useState(() => {
+    try { return sessionStorage.getItem("ttr-pi-signed-in") === "true"; } catch { return false; }
+  });
   const [user, setUser] = useState<User | null>(null);
   const [showSignIn, setShowSignIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [authError, setAuthError] = useState("");
+  useEffect(() => {
+    let active = true;
+    axiosClient.get("/user/session").then(({ data }) => {
+      if (!active) return;
+      setUser(data.user || null);
+      if (data.user) {
+        setPiSessionHint(true);
+        try { sessionStorage.setItem("ttr-pi-signed-in", "true"); } catch { /* Cookies still restore the session. */ }
+      }
+    }).catch(() => { /* Do not treat failed restoration as confirmed sign-out. */ })
+      .finally(() => { if (active) setAuthReady(true); });
+    return () => { active = false; };
+  }, []);
 
   const onIncompletePaymentFound = useCallback(async (payment: PaymentDTO) => {
     try {
@@ -21,6 +38,8 @@ export const useAuth = () => {
       await axiosClient.post("/user/signin", { authResult });
       axiosClient.defaults.headers.common.Authorization = "Bearer " + authResult.accessToken; // PI_BEARER_AUTH
       setUser(authResult.user);
+      setPiSessionHint(true);
+      try { sessionStorage.setItem("ttr-pi-signed-in", "true"); } catch { /* Navigation retains in-memory auth. */ }
       setShowSignIn(false);
     } catch (err) {
       console.error("Error signing in:", err);
@@ -49,6 +68,8 @@ export const useAuth = () => {
       await axiosClient.get("/user/signout");
       delete axiosClient.defaults.headers.common.Authorization;
       setUser(null);
+      setPiSessionHint(false);
+      try { sessionStorage.removeItem("ttr-pi-signed-in"); } catch { /* No browser storage available. */ }
     } catch (err) {
       console.error("Error signing out:", err);
     } finally {
@@ -61,6 +82,8 @@ export const useAuth = () => {
   }, []);
 
   return {
+    authReady,
+    piSessionHint,
     user,
     isAuthenticated: Boolean(user),
     showSignIn,
@@ -68,7 +91,7 @@ export const useAuth = () => {
     signOut,
     closeSignIn,
     requireAuth: () => setShowSignIn(true),
-    isLoading,
+    isLoading: isLoading || !authReady,
     authError,
   };
 };

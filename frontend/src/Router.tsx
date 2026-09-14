@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import AuthProvider from "./components/AuthProvider";
 import ProductPreviews from "./pages/ProductPreviews";
 import PayPalPurchase from "./pages/PayPalPurchase";
 import Shop from "./pages/Shop";
@@ -10,6 +11,7 @@ import PolicyPage from "./pages/PolicyPage";
 import EngagementTasksPage from "./pages/EngagementTasksPage.tsx";
 
 export const router = createBrowserRouter([
+  { element: <AuthProvider />, children: [
   { path: "/preview/:slug", element: <Preview /> },
   { path: "/help", element: <PolicyPage kind="help" /> },
   { path: "/refunds", element: <PolicyPage kind="refunds" /> },
@@ -30,6 +32,7 @@ export const router = createBrowserRouter([
     path: "/engagement-tasks",
     element: <EngagementTasksPage />,
   },
+  ] },
 ]);
 
 export default router;

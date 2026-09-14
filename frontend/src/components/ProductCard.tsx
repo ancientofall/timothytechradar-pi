@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { Link } from "react-router-dom";
 
 interface ProductCardProps {
   name: string;
@@ -110,13 +111,13 @@ const ProductCard = ({
       <div className="product-story">
         <div className="product-art">
           <img style={imageStyle} src={pictureURL} alt={name} />
-          <a
+          <Link
             className="kit-preview-link"
-            href={showPayments ? previewURL : `/previews#${previewURL.split("/").pop()}`}
+            to={showPayments ? previewURL : `/previews#${previewURL.split("/").pop()}`}
             aria-label={`Preview ${name}: three sample pages`}
           >
             Preview the Kit <span aria-hidden="true">↗</span>
-          </a>
+          </Link>
           <p className="kit-preview-note">Three free sample pages. Read here or download the PDF.</p>
         </div>
 
@@ -155,7 +156,7 @@ const ProductCard = ({
         </div>
         <p style={{ fontSize: 14, lineHeight: 1.5 }}>
           Digital download. Refunds for duplicate charges and faulty or undeliverable files, subject to applicable
-          consumer rights. <a href="/refunds">Refund policy</a> · <a href="/terms">Terms</a>
+          consumer rights. <Link to="/refunds">Refund policy</Link> · <Link to="/terms">Terms</Link>
         </p>
       </div>}
     </div>

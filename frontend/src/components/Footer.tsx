@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import type { CSSProperties } from "react";
 
 const footerStyle: CSSProperties = {
@@ -30,12 +31,12 @@ const Footer = () => (
       Visit TimothyTechRadar &mdash; Shop Tech &amp; Read Reviews &rarr;
     </a>
     <div style={{ fontSize: 14, lineHeight: 1.6, marginTop: 24 }}>
-      <p>Questions about your purchase? <a href="/contact">Contact support</a></p>
+      <p>Questions about your purchase? <Link to="/contact">Contact support</Link></p>
       <nav aria-label="Help and policies" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "8px 20px" }}>
-        <a href="/help">How to buy</a>
-        <a href="/refunds">Refund policy</a>
-        <a href="/privacy">Privacy</a>
-        <a href="/terms">Terms</a>
+        <Link to="/help">How to buy</Link>
+        <Link to="/refunds">Refund policy</Link>
+        <Link to="/privacy">Privacy</Link>
+        <Link to="/terms">Terms</Link>
       </nav>
       <p style={{ fontSize: 12, color: "#6b7280", marginTop: 18 }}>© {new Date().getFullYear()} TimothyTechRadar. All rights reserved.</p>
     </div>

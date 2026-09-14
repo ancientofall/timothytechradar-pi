@@ -1,7 +1,7 @@
 import { Outlet, useOutletContext } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import SignIn from "../components/SignIn";
+import { useSession } from "../components/AuthProvider";
 import PiBrowserNotice from "../components/PiBrowserNotice";
 import { useAuth } from "../hooks/useAuth";
 import { axiosClient } from "../lib/axiosClient";
@@ -9,7 +9,7 @@ import { axiosClient } from "../lib/axiosClient";
 export const useStoreAuth = () => useOutletContext<ReturnType<typeof useAuth>>();
 
 export default function StoreLayout() {
-  const auth = useAuth();
+  const auth = useSession();
   return (
     <>
       <Header
@@ -32,7 +32,6 @@ export default function StoreLayout() {
       />
       {!auth.isAuthenticated && <PiBrowserNotice />}
       <Outlet context={auth} />
-      {auth.showSignIn && <SignIn onSignIn={auth.signIn} onModalClose={auth.closeSignIn} disabled={auth.isLoading} error={auth.authError} />}
       <Footer />
     </>
   );

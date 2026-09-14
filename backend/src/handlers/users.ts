@@ -3,6 +3,16 @@ import { Router } from "express";
 import platformAPIClient from "../services/platformAPIClient";
 
 export default function mountUserEndpoints(router: Router) {
+  router.get("/session", async (req, res) => {
+    res.setHeader("Cache-Control", "private, no-store");
+    const current = req.session.currentUser;
+    if (!current) return res.json({ user: null });
+    try {
+      const { data } = await platformAPIClient.get("/v2/me", { headers: { Authorization: `Bearer ${current.accessToken}` } });
+      if (data.uid !== current.uid) return res.status(401).json({ error: "session_expired" });
+      return res.json({ user: { uid: data.uid, username: data.username, roles: Array.isArray(data.roles) ? data.roles : [] } });
+    } catch { return res.status(503).json({ error: "session_verification_unavailable" }); }
+  });
   // handle the user auth accordingly
   router.post("/signin", async (req, res) => {
     const auth = req.body.authResult;
@@ -47,6 +57,7 @@ export default function mountUserEndpoints(router: Router) {
       }
 
       req.session.currentUser = currentUser;
+      if (req.session.currentUser) req.session.currentUser.accessToken = auth.accessToken;
       return res.status(200).json({ message: "User signed in" });
     } catch (err) {
       console.error("Error during signin:", err);

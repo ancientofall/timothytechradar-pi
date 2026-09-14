@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import type { User } from "../types/pi.ts";
+import { useSession } from "./AuthProvider";
 
 interface HeaderProps {
   onSignIn?: () => void;
@@ -11,6 +12,11 @@ interface HeaderProps {
 }
 
 export default function Header({ user, onSignIn, onSignOut, onSendTestNotification, isLoading }: HeaderProps) {
+  const auth = useSession();
+  user = user ?? auth.user;
+  onSignIn = onSignIn ?? auth.requireAuth;
+  onSignOut = onSignOut ?? auth.signOut;
+  isLoading = isLoading ?? auth.isLoading;
   const [open, setOpen] = useState(false);
   const header = useRef<HTMLElement>(null);
   const toggle = useRef<HTMLButtonElement>(null);
@@ -55,6 +61,7 @@ export default function Header({ user, onSignIn, onSignOut, onSendTestNotificati
           <NavLink to="/preview/pi-nft-signal">Pi NFT Signal</NavLink>
         </div>
         <div><h2>Your Purchases</h2>
+          {!user && auth.piSessionHint && <button type="button" disabled={isLoading} onClick={() => action(onSignOut)}>Sign out of Pi session</button>}
           {user ? <><span className="site-menu-user">@{user.username}</span><button type="button" disabled={isLoading} onClick={() => action(onSignOut)}>Sign out</button></> : onSignIn ? <button type="button" disabled={isLoading} onClick={() => action(onSignIn)}>Sign in</button> : <Link to="/downloads">Sign in to access purchases</Link>}
           <NavLink to="/downloads">My Downloads</NavLink>
           {onSendTestNotification && user?.roles.includes("core_team") && <button type="button" onClick={() => action(onSendTestNotification)}>Send test notification</button>}
