@@ -14,6 +14,9 @@ const content: Record<PolicyKind, { title: string; body: ReactNode }> = {
         <li>Save the ZIP file using your browser's download or share options, then extract it to open the included documents.</li>
       </ol>
       <p>Already purchased? Open My downloads and sign in with the same Pi account. Choose Check my purchases if your kit is not shown. If a payment appears stuck, contact support before paying again.</p>
+      <h2>PayPal purchases</h2>
+      <p>When available, choose PayPal checkout on Preview &amp; Buy Kits. Approve the USD amount in PayPal, return here, and select Confirm payment to unlock your download. A sandbox label means a test checkout, not a real charge.</p>
+      <p>Keep your private recovery link for future downloads. It is not emailed automatically. Your saved PayPal purchases also appear on Preview &amp; Buy Kits in the browser used for checkout. If payment is pending or interrupted, check the same purchase again before paying again. For help, provide the product name and PayPal transaction reference through our contact form. Do not send your recovery link.</p>
       <p>For help, use our contact page to send your Pi username, product name, transaction identifier if available, and a description of the issue. Never send wallet passphrases, passwords, or access tokens.</p>
     </>,
   },
@@ -26,7 +29,7 @@ const content: Record<PolicyKind, { title: string; body: ReactNode }> = {
       <h2>Faulty or undeliverable files</h2>
       <p>If a file is corrupt, does not work as described, or cannot be delivered, contact support. We will investigate and offer a working replacement, delivery assistance, or a refund as appropriate. This does not delay or limit any remedy you are entitled to by law.</p>
       <h2>Requesting assistance</h2>
-      <p>Use our contact page with your Pi username, product name, transaction identifier if available, and a description of the problem. Refund requests are reviewed manually; submitting a request does not automatically issue a refund.</p>
+      <p>Use our contact page with your product name, Pi username for a Pi purchase or PayPal transaction reference for a PayPal purchase, and a description of the problem. Refund requests are reviewed manually; submitting a request does not automatically issue a refund.</p>
       <h2>Your consumer rights</h2>
       <p>This policy does not exclude or restrict applicable consumer rights, including any mandatory cancellation, withdrawal, repair, replacement, price reduction, or refund rights. Downloading a file does not by itself waive those rights.</p>
       <p>Purchases made on external websites are handled by those sellers under their own policies.</p>
@@ -41,6 +44,7 @@ const content: Record<PolicyKind, { title: string; body: ReactNode }> = {
       <h2>Why we use it</h2>
       <p>We use this information to authenticate you, verify payments, deliver downloads, restore purchase access, troubleshoot problems, and respond to support requests. Session cookies support sign-in where your browser permits them.</p>
       <h2>Services and storage</h2>
+      <p>PayPal processes USD payments when enabled. We store product, amount, payment references, payment status, and a hash of the private download access key. PayPal handles payment credentials; we do not store your card details. Your browser stores PayPal purchase references and private access keys so you can return to downloads. Clearing browser storage removes those local keys; save your private recovery link first. Short-lived hashed request counters help limit checkout abuse.</p>
       <p>Brevo delivers contact messages to our support inbox. Cloudflare Turnstile processes browser and security signals to help prevent automated abuse. Our server stores keyed, hashed submission counters, scheduled for deletion within two days, rather than storing contact message bodies in the site database. Counter data may remain in existing backups until those backups expire. Messages and delivery records may be retained by our email providers. Your details are not added to a marketing list by this form.</p>
       <p>Pi Network processes authentication and payments. The storefront and its database run on DigitalOcean hosting. Database backups are also stored encrypted in Microsoft OneDrive. Support correspondence is handled through Microsoft email. Blockchain transaction records may be publicly accessible and cannot be erased by this storefront.</p>
       <h2>Retention and requests</h2>
@@ -56,6 +60,7 @@ const content: Record<PolicyKind, { title: string; body: ReactNode }> = {
       <p>These terms describe purchases of digital resources from TimothyTechRadar. Review the product description, price, and refund policy before purchasing.</p>
       <h2>Payments and delivery</h2>
       <p>Confirm the amount and network displayed in Pi Wallet before approving payment. Downloads become available after the storefront verifies the payment. Use the same Pi account to restore purchase access. Testnet purchases use Test-Pi and are separate from Mainnet purchases.</p>
+      <p>For PayPal purchases, confirm the USD amount in PayPal, return to the storefront, and select Confirm payment. Keep the private recovery link for future access. Payment must be verified as complete before downloading; pending payments do not unlock files. PayPal sandbox checkout is for testing only. Refunded payments no longer provide new downloads.</p>
       <h2>Digital resources</h2>
       <p>Resources provide general educational and productivity guidance. Check AI-generated outputs before relying on them. Purchasing a resource does not guarantee income, business results, or a particular productivity improvement. Follow any usage license included with the product and respect third-party intellectual property.</p>
       <h2>Support and refunds</h2>

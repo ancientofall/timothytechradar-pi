@@ -1,4 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
+import ProductPreviews from "./pages/ProductPreviews";
+import PayPalPurchase from "./pages/PayPalPurchase";
 import Shop from "./pages/Shop";
 import Preview from "./pages/Preview";
 import StoreLayout from "./pages/StoreLayout";
@@ -18,6 +20,8 @@ export const router = createBrowserRouter([
     element: <StoreLayout />,
     children: [
       { index: true, element: <Shop /> },
+      { path: "previews", element: <ProductPreviews /> },
+      { path: "checkout/paypal", element: <PayPalPurchase /> },
       { path: "downloads", element: <Downloads /> },
       { path: "contact", element: <Contact /> },
     ],

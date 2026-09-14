@@ -29,7 +29,7 @@ export default function Preview() {
             <details className="preview-readable"><summary>Read page text</summary><div>{texts[page - 1]}</div></details>
           </section>
         ))}
-        <div className="preview-return"><h2>Ready for the full kit?</h2><p>{product.headline}</p><Link className="library-link" to="/">Back to shop · {product.price} Pi</Link></div>
+        <div className="preview-return"><h2>Ready for the full kit?</h2><p>{product.headline}</p><Link className="library-link" to={`/previews#${product.previewSlug}`}>View purchase options</Link></div>
       </main>
     </div>
   );
