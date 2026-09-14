@@ -45,7 +45,8 @@ export default function Header({ user, onSignIn, onSignOut, onSendTestNotificati
       </div>
       <nav id={menuId} hidden={!open} className="site-menu" aria-label="Site navigation" onClick={event => { if ((event.target as HTMLElement).closest("a")) setOpen(false); }}>
         <div><h2>Explore</h2>
-          <NavLink to="/" end>Home / Shop Kits</NavLink>
+          <NavLink to="/" end>Home</NavLink>
+          <NavLink to="/previews">Preview &amp; Buy Kits</NavLink>
           <a href="https://timothytechradar.aibusiness-lab.com/" target="_blank" rel="noopener noreferrer">Shop Tech &amp; Read Reviews <span aria-hidden="true">↗</span><span className="discovery-sr-only"> (opens in a new tab)</span></a>
         </div>
         <div><h2>Free Previews</h2>

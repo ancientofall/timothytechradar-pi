@@ -8,6 +8,7 @@ export const products = [
     previewPdfURL: "/previews/ai-productivity-preview.pdf?v=2",
     previewSlug: "ai-productivity",
     price: 3,
+    usdPrice: 9.99,
     headline: "Less scramble. More stride.",
     accent: "#087b73",
     description:
@@ -30,6 +31,7 @@ export const products = [
     previewPdfURL: "/previews/idea-ignition-preview.pdf?v=2",
     previewSlug: "idea-ignition",
     price: 5,
+    usdPrice: 14.99,
     headline: "Spark a thought. Shape a start.",
     accent: "#96600b",
     description:
@@ -55,6 +57,7 @@ export const products = [
     previewPdfURL: "/previews/pi-nft-signal-preview.pdf?v=2",
     previewSlug: "pi-nft-signal",
     price: 10,
+    usdPrice: 12.99,
     headline: "Read the signal. Build with purpose.",
     accent: "#4c78e8",
     description:

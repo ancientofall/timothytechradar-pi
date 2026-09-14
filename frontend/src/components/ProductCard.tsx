@@ -9,9 +9,15 @@ interface ProductCardProps {
   price: number;
   pictureURL: string;
   previewURL: string;
-  paymentNetworkLabel: string;
-  onClickBuyWithPi: () => void;
-  onClickBuyWithIrra: () => void;
+  paymentNetworkLabel?: string;
+  showPayments?: boolean;
+  showPayPal?: boolean;
+  usdPrice: number;
+  onClickBuyWithPi?: () => void;
+  onClickPayPal?: () => void;
+  paypalDisabled?: boolean;
+  paypalLabel?: string;
+
   disabled?: boolean;
 }
 
@@ -91,7 +97,12 @@ const ProductCard = ({
   previewURL,
   paymentNetworkLabel,
   onClickBuyWithPi,
-  onClickBuyWithIrra,
+  onClickPayPal,
+  paypalDisabled = true,
+  paypalLabel = "PayPal checkout",
+  showPayments = false,
+  showPayPal = false,
+  usdPrice,
   disabled,
 }: ProductCardProps) => {
   return (
@@ -101,7 +112,7 @@ const ProductCard = ({
           <img style={imageStyle} src={pictureURL} alt={name} />
           <a
             className="kit-preview-link"
-            href={previewURL}
+            href={showPayments ? previewURL : `/previews#${previewURL.split("/").pop()}`}
             aria-label={`Preview ${name}: three sample pages`}
           >
             Preview the Kit <span aria-hidden="true">↗</span>
@@ -126,7 +137,7 @@ const ProductCard = ({
         </div>
       </div>
 
-      <div style={priceSectionStyle}>
+      {showPayments && <div style={priceSectionStyle}>
         <div style={paymentActionsStyle}>
           <div style={paymentOptionStyle}>
             <strong style={{ color: "#182b58", fontSize: 16 }}>
@@ -136,19 +147,17 @@ const ProductCard = ({
               Pay with Pi
             </button>
           </div>
-          <div style={paymentOptionStyle}>
-            <strong style={{ color: "#182b58", fontSize: 16 }}>{price} IRRA</strong>
-            <button type="button" style={secondaryButtonStyle} onClick={onClickBuyWithIrra} disabled={disabled}>
-              Pay with IRRA
-            </button>
-            <p style={irraCaptionStyle}>IRRA prices don't follow actual price, it's set for demo purpose</p>
-          </div>
+          {showPayPal && <div style={paymentOptionStyle}>
+            <strong style={{ color: "#182b58", fontSize: 16 }}>${usdPrice.toFixed(2)} USD</strong>
+            <button type="button" style={secondaryButtonStyle} onClick={onClickPayPal} disabled={paypalDisabled}>{paypalLabel}</button>
+            <p style={irraCaptionStyle}>Secure checkout through PayPal</p>
+          </div>}
         </div>
         <p style={{ fontSize: 14, lineHeight: 1.5 }}>
           Digital download. Refunds for duplicate charges and faulty or undeliverable files, subject to applicable
           consumer rights. <a href="/refunds">Refund policy</a> · <a href="/terms">Terms</a>
         </p>
-      </div>
+      </div>}
     </div>
   );
 };

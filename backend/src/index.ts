@@ -12,6 +12,7 @@ import env from "./environments";
 import mountPaymentsEndpoints from "./handlers/payments";
 import mountUserEndpoints from "./handlers/users";
 import contactRouter from "./handlers/contact";
+import paypalRouter from "./handlers/paypal";
 
 // We must import typedefs for ts-node-dev to pick them up when they change (even though tsc would supposedly
 // have no problem here)
@@ -108,6 +109,7 @@ paymentsRouter.use(async (req, res, next) => {
 });
 mountPaymentsEndpoints(paymentsRouter);
 app.use("/payments", paymentsRouter);
+app.use("/paypal", paypalRouter(env.frontend_url));
 
 // User endpoints (e.g signin, signout) under /user:
 const userRouter = express.Router();
@@ -131,6 +133,8 @@ const start = async () => {
     const client = await MongoClient.connect(mongoUri, mongoClientOptions);
     const db = client.db(dbName);
     app.locals.orderCollection = db.collection("orders");
+    app.locals.paypalOrders = db.collection("paypal_orders");
+    await app.locals.paypalOrders.createIndex({ paypalId: 1 }, { unique: true, sparse: true });
     app.locals.userCollection = db.collection("users");
     app.locals.contactLimits = db.collection("contact_limits");
     await app.locals.contactLimits.createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 });
