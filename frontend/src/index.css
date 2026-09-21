@@ -50,7 +50,12 @@ body {
 @keyframes radar-turn { to { transform: rotate(360deg); } }
 @keyframes radar-signal { 0%, 8% { opacity: .85; transform: scale(1); } 35%, 100% { opacity: .18; transform: scale(.7); } }
 @media (max-width: 600px) { .radar-scope { width: 150vw; left: 85%; } .radar-grid { background-size: 44px 44px; } }
-@media (prefers-reduced-motion: reduce) { .radar-sweep, .radar-blip { animation: none; } .radar-sweep { opacity: .45; } .radar-motion-control { display: none; } }
+/* Keep the control available; reduced motion is the default, with explicit opt-in. */
+@media (prefers-reduced-motion: reduce) {
+  .radar-background:not(.radar-motion-enabled) .radar-sweep,
+  .radar-background:not(.radar-motion-enabled) .radar-blip { animation-play-state: paused; }
+}
+.radar-motion-control { bottom: calc(12px + env(safe-area-inset-bottom, 0px)); min-height: 44px; }
 @media print { .radar-background, .radar-motion-control { display: none; } }
 
 h1, h2, h3 {
