@@ -19,8 +19,15 @@ export default function mountUserEndpoints(router: Router) {
     try { identity = await exchangePiToken(accessToken); }
     catch (error) {
       const status = axios.isAxiosError(error) ? error.response?.status : undefined;
+      const reason = axios.isAxiosError(error)
+        ? (error.response ? "upstream_http_error" : "upstream_connection_error")
+        : "invalid_upstream_response";
+      // Never log Axios errors, request bodies, tokens, or upstream response bodies.
+      console.warn("Pi authentication exchange failed", { reason, upstreamStatus: status ?? null });
       return res.status(status === 401 || status === 403 ? 401 : 503).json({
         error: status === 401 || status === 403 ? "invalid_token" : "authentication_unavailable",
+        reason,
+        upstreamStatus: status ?? null,
       });
     }
     try {
