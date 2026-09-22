@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { axiosClient } from "../lib/axiosClient";
+import { recoverPiPayment } from "../lib/piPayments";
 import { getPiSdk } from "../lib/piSdk";
 import type { AuthResult, PaymentDTO, User } from "../types/pi";
 
@@ -31,9 +32,10 @@ export const useAuth = () => {
   const onIncompletePaymentFound = useCallback(async (payment: PaymentDTO) => {
     if (signingIn.current) { pendingPayments.current.push(payment); return; }
     try {
-      await axiosClient.post("/payments/incomplete", { payment });
+      await recoverPiPayment(payment);
     } catch (err) {
-      console.error("Error handling incomplete payment:", err);
+      setAuthError("An earlier Pi payment could not be recovered. Sign in again to retry; do not pay again.");
+      setShowSignIn(true);
     }
   }, []);
 
@@ -45,7 +47,11 @@ export const useAuth = () => {
       try { sessionStorage.setItem("ttr-pi-signed-in", "true"); } catch { /* Navigation retains in-memory auth. */ }
       setShowSignIn(false);
       for (const payment of pendingPayments.current.splice(0)) {
-        await axiosClient.post("/payments/incomplete", { payment }).catch(() => { /* Retry through Pi on next sign-in. */ });
+        try { await recoverPiPayment(payment); }
+        catch {
+          setAuthError("Signed in, but an earlier payment needs verification. Sign in again to retry; do not pay again.");
+          setShowSignIn(true);
+        }
       }
     } catch (err) {
       console.error("Sign-in failed");
@@ -61,7 +67,7 @@ export const useAuth = () => {
     setIsLoading(true);
     try {
       const pi = await getPiSdk();
-      const authResult = await pi.authenticate(["username"], onIncompletePaymentFound);
+      const authResult = await pi.authenticate(["username", "payments"], onIncompletePaymentFound);
       await signInUser(authResult);
     } catch (err) {
       console.error("Pi authentication did not complete");
