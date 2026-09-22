@@ -1,4 +1,4 @@
-import platformAPIClient from "./services/platformAPIClient";
+import { validatePiSession } from "./services/piSession";
 import fs from "fs";
 import path from "path";
 import cors from "cors";
@@ -67,7 +67,7 @@ app.use(
   session({
     secret: env.session_secret,
     proxy: true,
-    cookie: { secure: true, httpOnly: true, sameSite: "none" },
+    cookie: { secure: true, httpOnly: true, sameSite: "none", maxAge: 24 * 60 * 60 * 1000 },
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
@@ -84,29 +84,8 @@ app.use(
 //
 
 // Payments endpoint under /payments:
+app.use(validatePiSession);
 const paymentsRouter = express.Router();
-// PI_BEARER_AUTH: verify identity with Pi for each token-authenticated request.
-paymentsRouter.use(async (req, res, next) => {
-  const authorization = req.get("authorization");
-  if (!authorization) return next();
-  if (!authorization.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "invalid_token" });
-  }
-  try {
-    const { data } = await platformAPIClient.get("/v2/me", {
-      headers: { Authorization: authorization },
-    });
-    if (typeof data.uid !== "string" || !data.uid) {
-      return res.status(401).json({ error: "invalid_token" });
-    }
-    const user = await req.app.locals.userCollection.findOne({ uid: data.uid });
-    if (!user) return res.status(401).json({ error: "sign_in_required" });
-    req.session.currentUser = user;
-    return next();
-  } catch {
-    return res.status(401).json({ error: "authentication_failed" });
-  }
-});
 mountPaymentsEndpoints(paymentsRouter);
 app.use("/payments", paymentsRouter);
 app.use("/paypal", paypalRouter(env.frontend_url));

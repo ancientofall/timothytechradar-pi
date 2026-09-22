@@ -1,8 +1,11 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { axiosClient } from "../lib/axiosClient";
+import { getPiSdk } from "../lib/piSdk";
 import type { AuthResult, PaymentDTO, User } from "../types/pi";
 
 export const useAuth = () => {
+  const signingIn = useRef(false);
+  const pendingPayments = useRef<PaymentDTO[]>([]);
   const [authReady, setAuthReady] = useState(false);
   const [piSessionHint, setPiSessionHint] = useState(() => {
     try { return sessionStorage.getItem("ttr-pi-signed-in") === "true"; } catch { return false; }
@@ -26,6 +29,7 @@ export const useAuth = () => {
   }, []);
 
   const onIncompletePaymentFound = useCallback(async (payment: PaymentDTO) => {
+    if (signingIn.current) { pendingPayments.current.push(payment); return; }
     try {
       await axiosClient.post("/payments/incomplete", { payment });
     } catch (err) {
@@ -35,29 +39,36 @@ export const useAuth = () => {
 
   const signInUser = useCallback(async (authResult: AuthResult) => {
     try {
-      await axiosClient.post("/user/signin", { authResult });
-      axiosClient.defaults.headers.common.Authorization = "Bearer " + authResult.accessToken; // PI_BEARER_AUTH
-      setUser(authResult.user);
+      const { data } = await axiosClient.post("/user/signin", { accessToken: authResult.accessToken });
+      setUser(data.user);
       setPiSessionHint(true);
       try { sessionStorage.setItem("ttr-pi-signed-in", "true"); } catch { /* Navigation retains in-memory auth. */ }
       setShowSignIn(false);
+      for (const payment of pendingPayments.current.splice(0)) {
+        await axiosClient.post("/payments/incomplete", { payment }).catch(() => { /* Retry through Pi on next sign-in. */ });
+      }
     } catch (err) {
-      console.error("Error signing in:", err);
+      console.error("Sign-in failed");
       setAuthError("We couldn't finish signing in. Please try again in Pi Browser.");
     }
   }, []);
 
   const signIn = useCallback(async () => {
+    if (signingIn.current) return;
+    signingIn.current = true;
+    pendingPayments.current = [];
     setAuthError("");
     setIsLoading(true);
     try {
-      const scopes = ["username", "payments", "roles", "in_app_notifications"];
-      const authResult = await window.Pi.authenticate(scopes, onIncompletePaymentFound);
+      const pi = await getPiSdk();
+      const authResult = await pi.authenticate(["username"], onIncompletePaymentFound);
       await signInUser(authResult);
     } catch (err) {
-      console.error("Error authenticating:", err);
+      console.error("Pi authentication did not complete");
       setAuthError("Sign-in didn't complete. Open this website in Pi Browser and try again.");
     } finally {
+      signingIn.current = false;
+      pendingPayments.current = [];
       setIsLoading(false);
     }
   }, [onIncompletePaymentFound, signInUser]);
