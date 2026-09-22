@@ -35,7 +35,7 @@ export default function ProductPreviews() {
         "Please allow browser storage to keep your purchase access, then try again.");
     } finally { setBusy(false); }
   }
-  const { orderProduct, isLoading } = usePayments({ isAuthenticated, onRequireAuth: requireAuth,
+  const { orderProduct, isLoading, paymentError } = usePayments({ isAuthenticated, onRequireAuth: requireAuth,
     onPaymentComplete: () => navigate("/downloads") });
   return <main className="storefront">
     <section style={{ padding: 24, maxWidth: 960, margin: "auto" }}>
@@ -43,6 +43,7 @@ export default function ProductPreviews() {
       <p>Read three free sample pages from each publication, then choose the full kit.</p>
       {showPayPal && <p>{!paypal.enabled ? "PayPal checkout is not available yet." : paypal.mode === "sandbox" ? "PayPal is in sandbox testing mode. No real money is charged." : "Use PayPal for USD checkout. Keep the private recovery link provided after checkout for future downloads."} Pi purchases are available through Pi Browser.</p>}
       {error && <p role="alert">{error}</p>}
+      {paymentError && <p role="alert">{paymentError}</p>}
       {savedPurchases().length > 0 && <details><summary>Your saved PayPal purchases</summary>
         <ul>{savedPurchases().map(p => <li key={p.id}><Link to={`/checkout/paypal?id=${p.id}`}>{products.find(product => product.id === p.productId)?.name || "View purchase"}</Link></li>)}</ul>
       </details>}
@@ -52,7 +53,7 @@ export default function ProductPreviews() {
         onClickPayPal={() => checkout(product.id)} paypalDisabled={!paypal.enabled || busy || isLoading}
         paypalLabel={busy ? "Please wait…" : paypal.mode === "sandbox" && paypal.enabled ? "Test PayPal checkout" : "PayPal checkout"}
         paymentNetworkLabel={window.location.hostname.startsWith("testnet.") ? "Test-Pi" : "Pi"}
-        onClickBuyWithPi={() => orderProduct("Order " + product.name, product.price, { productId: product.id })}
+        onClickBuyWithPi={() => orderProduct(product.id)}
         disabled={isLoading || busy} />
     </section>)}
   </main>;
