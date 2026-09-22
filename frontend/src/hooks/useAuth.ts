@@ -67,7 +67,8 @@ export const useAuth = () => {
     setIsLoading(true);
     try {
       const pi = await getPiSdk();
-      const authResult = await pi.authenticate(["username", "payments"], onIncompletePaymentFound);
+      // Payment permission is requested at checkout; it must not block sign-in.
+      const authResult = await pi.authenticate(["username"], onIncompletePaymentFound);
       await signInUser(authResult);
     } catch (err) {
       console.error("Pi authentication did not complete");
