@@ -43,6 +43,9 @@ export const useAuth = () => {
   const signInUser = useCallback(async (authResult: AuthResult) => {
     try {
       const { data } = await axiosClient.post("/user/signin", { accessToken: authResult.accessToken });
+      if (typeof data.sessionToken !== "string" || !data.sessionToken) throw new Error("Missing app session");
+      // In-memory only: same verified server session even when PiNet blocks cookies.
+      axiosClient.defaults.headers.common.Authorization = `Bearer ${data.sessionToken}`;
       setUser(data.user);
       setPiSessionHint(true);
       try { sessionStorage.setItem("ttr-pi-signed-in", "true"); } catch { /* Navigation retains in-memory auth. */ }
