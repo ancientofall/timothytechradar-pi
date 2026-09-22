@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { isAxiosError } from "axios";
 import { axiosClient } from "../lib/axiosClient";
 import { recoverPiPayment } from "../lib/piPayments";
 import { getPiSdk } from "../lib/piSdk";
@@ -55,7 +56,15 @@ export const useAuth = () => {
       }
     } catch (err) {
       console.error("Sign-in failed");
-      setAuthError("We couldn't finish signing in. Please try again in Pi Browser.");
+      const failure = isAxiosError(err) ? err.response?.data : undefined;
+      if (failure?.error === "authentication_unavailable") {
+        const status = typeof failure.upstreamStatus === "number" ? ` (HTTP ${failure.upstreamStatus})` : "";
+        setAuthError(`Pi sign-in verification is unavailable${status}. Please try again later.`);
+      } else if (failure?.error === "invalid_token") {
+        setAuthError("Pi rejected this sign-in token. Close and reopen the app in Pi Browser, then sign in again.");
+      } else {
+        setAuthError("We couldn't finish signing in. Please try again in Pi Browser.");
+      }
     }
   }, []);
 
