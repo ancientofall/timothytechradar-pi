@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import { axiosClient } from "../lib/axiosClient";
+import { getPiSdk } from "../lib/piSdk";
 import type { PaymentDTO } from "../types/pi";
 
 type PaymentMetadata = {
@@ -57,7 +58,14 @@ export const usePayments = ({ isAuthenticated, onRequireAuth, onPaymentComplete 
 
       setIsLoading(true);
       try {
-        await window.Pi.createPayment(
+        const pi = await getPiSdk();
+        // Request payment permission only at checkout; this does not establish identity.
+        await pi.authenticate(["payments"], payment => {
+          void axiosClient.post("/payments/incomplete", { payment }).catch(() => {
+            console.error("Could not recover incomplete payment");
+          });
+        });
+        await pi.createPayment(
           {
             amount,
             memo,

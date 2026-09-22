@@ -1,73 +1,49 @@
 import { Router } from "express";
-
-import platformAPIClient from "../services/platformAPIClient";
-
+import axios from "axios";
+import { exchangePiToken } from "../services/appStudioAuth";
+import "../types/session";
 export default function mountUserEndpoints(router: Router) {
-  router.get("/session", async (req, res) => {
-    res.setHeader("Cache-Control", "private, no-store");
-    const current = req.session.currentUser;
-    if (!current) return res.json({ user: null });
-    try {
-      const { data } = await platformAPIClient.get("/v2/me", { headers: { Authorization: `Bearer ${current.accessToken}` } });
-      if (data.uid !== current.uid) return res.status(401).json({ error: "session_expired" });
-      return res.json({ user: { uid: data.uid, username: data.username, roles: Array.isArray(data.roles) ? data.roles : [] } });
-    } catch { return res.status(503).json({ error: "session_verification_unavailable" }); }
+  router.use((_req, res, next) => { res.setHeader("Cache-Control", "private, no-store"); next(); });
+  router.get("/session", (req, res) => {
+    const user = req.session.currentUser;
+    return res.json({ user: user ? { uid: user.uid, username: user.username, roles: user.roles } : null });
   });
-  // handle the user auth accordingly
   router.post("/signin", async (req, res) => {
-    const auth = req.body.authResult;
-    const userCollection = req.app.locals.userCollection;
-
-    if (!userCollection) {
-      return res.status(503).json({ error: "service_unavailable", message: "Database not ready" });
+    const accessToken = req.body?.accessToken;
+    if (typeof accessToken !== "string" || !accessToken.trim() || accessToken.length > 16384) {
+      return res.status(400).json({ error: "access_token_required" });
     }
-
-    try {
-      // Verify the user's access token with the /me endpoint:
-      const me = await platformAPIClient.get(`/v2/me`, { headers: { Authorization: `Bearer ${auth.accessToken}` } });
-      // Pi identity verification succeeded.
-    } catch (err) {
-      console.error("Pi token verification failed");
-      return res.status(401).json({ error: "invalid_token", message: "Invalid access token" });
+    const users = req.app.locals.userCollection;
+    if (!users) return res.status(503).json({ error: "service_unavailable" });
+    let identity;
+    try { identity = await exchangePiToken(accessToken); }
+    catch (error) {
+      const status = axios.isAxiosError(error) ? error.response?.status : undefined;
+      return res.status(status === 401 || status === 403 ? 401 : 503).json({
+        error: status === 401 || status === 403 ? "invalid_token" : "authentication_unavailable",
+      });
     }
-
     try {
-      let currentUser = await userCollection.findOne({ uid: auth.user.uid });
-
-      if (currentUser) {
-        await userCollection.updateOne(
-          {
-            _id: currentUser._id,
-          },
-          {
-            $set: {
-              accessToken: auth.accessToken,
-            },
-          },
-        );
-      } else {
-        const insertResult = await userCollection.insertOne({
-          username: auth.user.username,
-          uid: auth.user.uid,
-          roles: auth.user.roles,
-          accessToken: auth.accessToken,
-        });
-
-        currentUser = await userCollection.findOne({ _id: insertResult.insertedId });
-      }
-
-      req.session.currentUser = currentUser;
-      if (req.session.currentUser) req.session.currentUser.accessToken = auth.accessToken;
-      return res.status(200).json({ message: "User signed in" });
-    } catch (err) {
-      console.error("Error during signin:", err);
-      return res.status(500).json({ error: "internal_error", message: "Failed to sign in" });
+      // Legacy roles were browser-supplied; do not grant them to verified sessions.
+      await users.updateOne({ uid: identity.uid }, {
+        $set: identity, $unset: { accessToken: "" },
+      }, { upsert: true });
+      await new Promise<void>((resolve, reject) => req.session.regenerate(error => error ? reject(error) : resolve()));
+      req.session.currentUser = identity;
+      req.session.piAuthVersion = 1;
+      req.session.piAuthenticatedUntil = Date.now() + 24 * 60 * 60 * 1000;
+      await new Promise<void>((resolve, reject) => req.session.save(error => error ? reject(error) : resolve()));
+      return res.json({ user: identity });
+    } catch {
+      req.session.currentUser = null;
+      return res.status(500).json({ error: "signin_failed" });
     }
   });
-
-  // handle the user auth accordingly
-  router.get("/signout", async (req, res) => {
-    req.session.currentUser = null;
-    return res.status(200).json({ message: "User signed out" });
+  router.get("/signout", (req, res) => {
+    req.session.destroy(error => {
+      if (error) return res.status(503).json({ error: "signout_failed" });
+      res.clearCookie("connect.sid", { secure: true, httpOnly: true, sameSite: "none", path: "/" });
+      return res.json({ message: "User signed out" });
+    });
   });
 }
