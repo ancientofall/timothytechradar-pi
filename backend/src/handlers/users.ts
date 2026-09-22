@@ -1,5 +1,6 @@
 import { Router } from "express";
 import axios from "axios";
+import { piSessionToken } from "../services/piSession";
 import { exchangePiToken } from "../services/appStudioAuth";
 import "../types/session";
 export default function mountUserEndpoints(router: Router) {
@@ -40,7 +41,7 @@ export default function mountUserEndpoints(router: Router) {
       req.session.piAuthVersion = 1;
       req.session.piAuthenticatedUntil = Date.now() + 24 * 60 * 60 * 1000;
       await new Promise<void>((resolve, reject) => req.session.save(error => error ? reject(error) : resolve()));
-      return res.json({ user: identity });
+      return res.json({ user: identity, sessionToken: piSessionToken(req.sessionID) });
     } catch {
       req.session.currentUser = null;
       return res.status(500).json({ error: "signin_failed" });
